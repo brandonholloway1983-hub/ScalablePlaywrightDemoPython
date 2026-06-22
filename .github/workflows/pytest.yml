@@ -1,0 +1,53 @@
+name: ScalablePlaywrightDemoPython
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+
+  smoke:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pytest-playwright python-dotenv
+          playwright install --with-deps chromium
+
+      - name: Run smoke tests
+        run: pytest tests/test_smoke.py -m smoke -v
+        env:
+          OHR_USERNAME: ${{ secrets.OHR_USERNAME }}
+          OHR_PASSWORD: ${{ secrets.OHR_PASSWORD }}
+
+  regression:
+    name: Regression Tests
+    runs-on: ubuntu-latest
+    needs: smoke
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pytest-playwright python-dotenv
+          playwright install --with-deps chromium
+
+      - name: Run regression tests
+        run: pytest tests/test_employee_list.py -m regression -v
+        env:
+          OHR_USERNAME: ${{ secrets.OHR_USERNAME }}
+          OHR_PASSWORD: ${{ secrets.OHR_PASSWORD }}
