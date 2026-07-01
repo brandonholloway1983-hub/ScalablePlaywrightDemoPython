@@ -1,5 +1,9 @@
 # ScalablePlaywrightDemoPython
 
+![CI](https://github.com/brandonholloway1983-hub/ScalablePlaywrightDemoPython/actions/workflows/pytest.yml/badge.svg)
+
+*Built by Brandon Holloway*
+
 A Python/PyTest port of [ScalablePlaywrightDemo](https://github.com/brandonholloway1983-hub/ScalablePlaywrightDemo) — built to demonstrate the same Page Object Model architecture, testing patterns, and CI practices in Python rather than JavaScript.
 
 Built against OrangeHRM, an enterprise HR management system used as an analog for complex, data-heavy enterprise applications.
@@ -80,7 +84,8 @@ pip install pytest-playwright python-dotenv
 playwright install chromium
 
 # Configure environment
-# Create .env with OHR_USERNAME and OHR_PASSWORD
+cp .env.example .env
+# Edit .env with your credentials
 
 # Run tests
 pytest tests/test_smoke.py -m smoke -v
